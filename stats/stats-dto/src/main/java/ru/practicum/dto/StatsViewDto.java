@@ -18,5 +18,5 @@ import lombok.Data;
 public class StatsViewDto {
     private String app;
     private String uri;
-    private int hits;
+    private Long hits;
 }

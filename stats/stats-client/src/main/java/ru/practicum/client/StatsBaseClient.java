@@ -32,7 +32,7 @@ public class StatsBaseClient {
      */
     public EndpointHitDto postHit(EndpointHitDto hit) {
         HttpEntity<EndpointHitDto> requestEntity = new HttpEntity<>(hit);
-        return restTemplate.exchange("http://stats-server:909" + "/hit", HttpMethod.POST, requestEntity,
+        return restTemplate.exchange("http://localhost:9090" + "/hit", HttpMethod.POST, requestEntity,
                 EndpointHitDto.class).getBody();
     }
 
@@ -53,8 +53,7 @@ public class StatsBaseClient {
                 "uris", uris,
                 "unique", unique != null ? unique : false
         );
-        return restTemplate.getForObject("http://stats-server:909" + "/stats?start={start}&end={end}&uris=" +
-                        "{uris}&unique={unique}",
-                List.class, parameters);
+        return restTemplate.getForObject("http://localhost:9090" + "/stats?start={start}&end={end}&uris=" +
+                "{uris}&unique={unique}", List.class, parameters);
     }
 }

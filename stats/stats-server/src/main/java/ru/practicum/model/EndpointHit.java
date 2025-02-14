@@ -1,5 +1,6 @@
 package ru.practicum.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 public class EndpointHit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(nullable = false)
     private String app;
     @Column(nullable = false)
@@ -34,5 +35,6 @@ public class EndpointHit {
     @Column(nullable = false)
     private String ip;
     @Column(nullable = false, name = "creation date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 }

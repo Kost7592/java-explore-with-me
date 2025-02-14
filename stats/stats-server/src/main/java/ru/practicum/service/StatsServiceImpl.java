@@ -36,8 +36,12 @@ public class StatsServiceImpl implements StatsService {
     public List<StatsViewDto> getStatistics(String start, String end, List<String> uris, Boolean unique) {
         LocalDateTime parsedStart = LocalDateTime.parse(start, formatter);
         LocalDateTime parsedEnd = LocalDateTime.parse(end, formatter);
+        if (uris == null) {
+            log.info("Получена статистика за период между {} и {}", start, end);
+            return convertToViewStatsDto(repository.findAllElements(parsedStart, parsedEnd, unique));
+        }
         log.info("Получена статистика за период между {} и {}", start, end);
-        return convertToViewStatsDto(repository.findAll(parsedStart, parsedEnd, uris, unique));
+        return convertToViewStatsDto(repository.findAllElementsWithUris(parsedStart, parsedEnd, uris, unique));
     }
 
     /**
@@ -48,7 +52,7 @@ public class StatsServiceImpl implements StatsService {
     private List<StatsViewDto> convertToViewStatsDto(List<Map<String, Object>> result) {
         return result.stream()
                 .map(map -> new StatsViewDto((String) map.get("app"), (String) map.get("uri"),
-                        (int) map.get("hits")))
+                        (Long) map.get("hits")))
                 .collect(Collectors.toList());
     }
 }

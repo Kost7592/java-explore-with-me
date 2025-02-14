@@ -19,10 +19,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
 
-  ewm-service:
-    build: ewm-service
-    container_name: ewm-service-container
+  main-service:
+    build: main-service
+    container_name: main-service-container
     ports:
       - "8080:8080"
-  ewm-db:
+  main-db:
     image: postgres:16.1

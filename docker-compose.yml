@@ -3,7 +3,7 @@ services:
     build: stats/stats-server
     container_name: stats-server-container
     ports:
-      - "9091:9090"
+      - "9090:9090"
     depends_on:
       - stats-db
     environment:
@@ -26,7 +26,7 @@ services:
     build: ewm-service
     container_name: ewm-service-container
     ports:
-      - "8081:8080"
+      - "8080:8080"
     depends_on:
       - ewm-db
     environment:

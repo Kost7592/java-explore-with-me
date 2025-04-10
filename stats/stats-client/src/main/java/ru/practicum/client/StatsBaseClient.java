@@ -1,6 +1,7 @@
 package ru.practicum.client;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ import static java.util.Objects.isNull;
 @RequiredArgsConstructor
 public class StatsBaseClient {
     final RestTemplate restTemplate = new RestTemplate();
-
+    @Value("${stats-server.url}")
+    private String statsServerUrl;
     /**
      * Этот метод отправляет запрос к эндпоинту для записи информации о запросе.
      * Он принимает объект типа EndpointHitDto, который содержит информацию о запросе.
@@ -32,7 +34,7 @@ public class StatsBaseClient {
      */
     public void postHit(EndpointHitDto hit) {
         HttpEntity<EndpointHitDto> requestEntity = new HttpEntity<>(hit);
-        restTemplate.exchange("http://localhost:9090/hit", HttpMethod.POST, requestEntity, String.class).getBody();
+        restTemplate.exchange(statsServerUrl + "/hit", HttpMethod.POST, requestEntity, String.class).getBody();
     }
 
     /**
@@ -50,7 +52,7 @@ public class StatsBaseClient {
                 "uris", uris,
                 "unique", unique != null ? unique : false
         );
-        StatsViewDto[] result = restTemplate.getForObject("http://localhost:9090/stats?start={start}&end={end}" +
+        StatsViewDto[] result = restTemplate.getForObject(statsServerUrl + "/stats?start={start}&end={end}" +
                 "&uris={uris}&unique={unique}", StatsViewDto[].class, parameters);
         return isNull(result) ? Collections.emptyList() : List.of(result);
     }

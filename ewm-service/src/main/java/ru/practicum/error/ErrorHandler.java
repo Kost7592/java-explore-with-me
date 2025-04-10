@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
 public class ErrorHandler {
 
     /**
-     * Обрабатывает исключение ObjectNotFoundException, возвращая ответ с кодом 404 (Not Found).
+     * Метод обрабатывает исключение ObjectNotFoundException, возвращая ответ с кодом 404 (Not Found).
      * В ответе содержится сообщение об ошибке, полученное из исключения.
      */
     @ExceptionHandler

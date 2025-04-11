@@ -27,6 +27,7 @@ public class StatsBaseClient {
     final RestTemplate restTemplate = new RestTemplate();
     @Value("${stats-server.url}")
     private String statsServerUrl;
+
     /**
      * Этот метод отправляет запрос к эндпоинту для записи информации о запросе.
      * Он принимает объект типа EndpointHitDto, который содержит информацию о запросе.

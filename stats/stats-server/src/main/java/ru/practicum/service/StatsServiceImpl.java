@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.dto.StatsViewDto;
+import ru.practicum.exception.BadParametersException;
 import ru.practicum.mapper.StatsMapper;
 import ru.practicum.model.EndpointHit;
 import ru.practicum.repository.StatsRepository;
@@ -36,6 +37,9 @@ public class StatsServiceImpl implements StatsService {
     public List<StatsViewDto> getStatistics(String start, String end, List<String> uris, Boolean unique) {
         LocalDateTime parsedStart = LocalDateTime.parse(start, formatter);
         LocalDateTime parsedEnd = LocalDateTime.parse(end, formatter);
+        if (parsedStart.isAfter(parsedEnd)) {
+            throw new BadParametersException("Неверно заданы даты");
+        }
         if (uris == null) {
             log.info("Получена статистика за период между {} и {}", start, end);
             return convertToViewStatsDto(repository.findAllElements(parsedStart, parsedEnd, unique));

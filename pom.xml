@@ -15,16 +15,6 @@
         <module>ewm-service</module>
         <module>stats</module>
     </modules>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-    </dependencies>
 
     <groupId>ru.practicum</groupId>
     <artifactId>explore-with-me</artifactId>

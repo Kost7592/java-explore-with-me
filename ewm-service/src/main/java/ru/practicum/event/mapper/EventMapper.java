@@ -1,6 +1,7 @@
 package ru.practicum.event.mapper;
 
 import ru.practicum.category.mapper.CategoryMapper;
+import ru.practicum.comment.mapper.CommentMapper;
 import ru.practicum.event.dto.*;
 import ru.practicum.event.model.Event;
 import ru.practicum.request.model.Request;
@@ -65,6 +66,9 @@ public class EventMapper {
                 .confirmedRequests(isNull(requests) ? 0 : requests.stream()
                         .filter(request -> CONFIRMED.equals(request.getStatus()))
                         .count())
+                .comments(isNull(event.getComments()) ? null : event.getComments().stream()
+                        .map(CommentMapper::toCommentShortDto)
+                        .toList())
                 .build();
     }
 

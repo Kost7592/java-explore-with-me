@@ -1,5 +1,6 @@
 package ru.practicum.error;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.ObjectNotFoundException;
 import org.postgresql.util.PSQLException;
@@ -44,11 +45,10 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handlerEmailConflictException(final BadRequestDataException e) {
         log.debug("Получен статус 409 CONFLICT {}", e.getMessage(), e);
-
         return ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT.toString())
                 .message(e.getMessage())
-                .reason("Нарушено ограничение целостности.")
+                .reason("Неверные данные запроса")
                 .build();
     }
 
@@ -60,11 +60,10 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handlerEmailConflictException(final BadDataException e) {
         log.debug("Получен статус 409 CONFLICT {}", e.getMessage(), e);
-
         return ErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .message(e.getMessage())
-                .reason("Нарушено ограничение целостности.")
+                .reason("Неверные данные")
                 .build();
     }
 
@@ -75,11 +74,11 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handlerIncorrectParametersException(NoSuchElementException e) {
-        log.debug("Получен статус 404 NOT FOUND {}", e.getMessage(), e);
+        log.debug("Получен статус 404 NOT FOUND {}", e.getMessage());
         return ErrorResponse.builder()
                 .status(HttpStatus.NOT_FOUND.toString())
                 .message(e.getMessage())
-                .reason("Неверные параметры")
+                .reason("Не найден элемент")
                 .build();
     }
 
@@ -90,11 +89,26 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handlerSQLException(PSQLException e) {
-        log.debug("Получен статус 409 CONFLICT {}", HttpStatus.CONFLICT, e.getMessage());
+        log.debug("Получен статус 409 CONFLICT {}", e.getMessage());
         return ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT.toString())
                 .message(e.getMessage())
                 .reason("Запрос вызвал конфликт")
+                .build();
+    }
+
+    /**
+     * Обрабатывает исключение ConstraintViolationException, возвращая ответ с кодом 409 (Conflict).
+     * В ответе содержится сообщение об ошибке, полученное из исключения.
+     */
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handlerSqlValidationException(final ConstraintViolationException e) {
+        log.debug("Получен статус 409 CONFLICT {}", e.getMessage(), e);
+        return ErrorResponse.builder()
+                .status(HttpStatus.CONFLICT.toString())
+                .message(e.getMessage())
+                .reason("Нарушено ограничение целостности.")
                 .build();
     }
 }

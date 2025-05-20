@@ -793,7 +793,7 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "2"
+							"value": "{{userId}}"
 						},
 						{
 							"key": "commentId",

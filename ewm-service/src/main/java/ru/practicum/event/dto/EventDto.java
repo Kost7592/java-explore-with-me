@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.category.dto.CategoryDto;
+import ru.practicum.comment.dto.CommentShortDto;
 import ru.practicum.user.dto.UserShortDto;
+
+import java.util.List;
 
 /**
  * DTO (Data Transfer Object) для представления данных о событии.
@@ -50,4 +53,5 @@ public class EventDto {
     private State state;
     private String title;
     private Integer views;
+    private List<CommentShortDto> comments;
 }
